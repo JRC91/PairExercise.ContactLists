@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ContactList from './ContactList';
 import axios from 'axios';
 import SingleContact from './SingleContact';
+import Favorite from './Favorite';
 
 
 class Main extends Component {
@@ -12,6 +13,7 @@ class Main extends Component {
       contacts:[],
       selectedContact: {
       },
+
     }
     this.selectContact = this.selectContact.bind(this);
   }
@@ -36,7 +38,7 @@ class Main extends Component {
     let button;
     console.log(this.state.selectedContact);
     if(this.state.selectedContact.id){
-      button = <SingleContact selectContact = {this.state.selectedContact}/>
+      button = <SingleContact selectContacted = {this.state.selectedContact} selectContact = {this.selectContact} />
     }
     else {button =  <ContactList contacts = {this.state.contacts} selectContact = {this.selectContact}/>}
     return (
