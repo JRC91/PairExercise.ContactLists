@@ -1,30 +1,51 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ContactList from './ContactList';
+import axios from 'axios';
+import SingleContact from './SingleContact';
 
-
-const contacts = [
-  {"id": 1, "name": "R2-D2", "phone": "222-222-2222", "email": "r2d2@droids.com"},
-  {"id": 2, "name": "C-3PO", "phone": "333-333-3333", "email": "c3po@droids.com"},
-  {"id": 3, "name": "BB-8", "phone": "888-888-8888", "email": "bb8@droids.com"}
-]
 
 class Main extends Component {
   constructor () {
     super();
     this.state = {
-      contacts: contacts
+      contacts:[],
+      selectedContact: {
+      },
     }
+    this.selectContact = this.selectContact.bind(this);
   }
 
-  render() {
+  async componentDidMount () {
+    try{
+   let response = await axios.get('/api/contacts')
+    let contacts = response.data;
+    this.setState({contacts})
+  }
+  catch(err){console.log(err)}
+}
+ async selectContact (id) {
+   let response = await axios.get(`/api/contacts/${id}`)
+   console.log(response);
+    let selectedContact = response.data;
+    this.setState({selectedContact});
+  }
+
+  render()
+  {
+    let button;
+    console.log(this.state.selectedContact);
+    if(this.state.selectedContact.id){
+      button = <SingleContact selectContact = {this.state.selectedContact}/>
+    }
+    else {button =  <ContactList contacts = {this.state.contacts} selectContact = {this.selectContact}/>}
     return (
       <div id="main">
         <div id="navbar">
           <div>Contact List</div>
         </div>
-        <div id="container">
-          <ContactList contacts = {this.state.contacts}/>
+        <div id="container" >
+          {button}
         </div>
       </div>
     );

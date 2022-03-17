@@ -1,10 +1,10 @@
 import React from 'react';
-import { render } from 'react-dom';
+
 import ContactRow from './ContactRow';
 
 function ContactList (prop) {
 
-
+//we had a render here that didn't do anything
    return <table>
   <tbody>
     <tr>
@@ -14,8 +14,9 @@ function ContactList (prop) {
     </tr>
 
     {/* Contact 1 */}
+    {console.log(prop)}
     {prop.contacts.map((ele =>
-    < ContactRow key={ele.id} contacts = {ele} />
+    < ContactRow key={ele.id} contacts = {ele} selectContact = {prop.selectContact}/>
     ))}
   </tbody>
 </table>
